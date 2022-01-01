@@ -18,7 +18,7 @@ class MainMenuView(arcade.View):
         exit_button = arcade.gui.UIFlatButton(text='Exit', width=200)
 
         # handlers binding
-        pass
+        exit_button.on_click = self.on_exit_button_click
 
         # buttons box layout
         box = arcade.gui.UIBoxLayout()
@@ -41,3 +41,24 @@ class MainMenuView(arcade.View):
                          arcade.color.WHITE, font_size=50, anchor_x="center")
         # buttons drawing
         self.uimanager.draw()
+
+    """
+        Buttons handlers
+    """
+
+    def on_exit_button_click(self, event):
+        # 1. creating message box
+        message_box = arcade.gui.UIMessageBox(
+            width=300,
+            height=200,
+            message_text='You really want to exit?',
+            callback=self.on_message_box_close,
+            buttons=["Yes", "No"]
+        )
+        # 2. add this to UI
+        self.uimanager.add(message_box)
+
+    def on_message_box_close(self, reply):
+        # exit only if user want it
+        if reply == 'Yes':
+            arcade.exit()
