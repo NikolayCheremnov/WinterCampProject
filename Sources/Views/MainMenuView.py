@@ -1,6 +1,8 @@
 import arcade
 import arcade.gui
 
+from Sources.Views.GameView import GameView
+
 
 class MainMenuView(arcade.View):
     """ Initial view screen """
@@ -18,6 +20,7 @@ class MainMenuView(arcade.View):
         exit_button = arcade.gui.UIFlatButton(text='Exit', width=200)
 
         # handlers binding
+        start_button.on_click = self.on_start_button_click
         exit_button.on_click = self.on_exit_button_click
 
         # buttons box layout
@@ -62,3 +65,11 @@ class MainMenuView(arcade.View):
         # exit only if user want it
         if reply == 'Yes':
             arcade.exit()
+
+    def on_start_button_click(self, event):
+        # 1. create game view
+        game_view = GameView()
+        # 2. setup this
+        game_view.setup()
+        # 3. show
+        self.window.show_view(game_view)
