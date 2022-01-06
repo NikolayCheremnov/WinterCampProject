@@ -14,8 +14,12 @@ class GameView(arcade.View):
         self.player_sprite = None
         # физический движок
         self.engine = None
+        # камера
+        self.camera = None
 
     def setup(self):
+        # 0. инициализация камеры
+        self.camera = arcade.Camera(self.window.width, self.window.height)
         # 1. инициализация сцены
         self.scene = arcade.Scene()
         # 2. Добавление списки спрайтов на сцену
@@ -95,9 +99,26 @@ class GameView(arcade.View):
             self.player_sprite.change_y = 0
 
     def on_update(self, delta_time):
+        # 1. обновление состояния движка
         self.engine.update()
+        # 2. обновление камеры
+        self.center_camera_to_player()
 
     def on_draw(self):
         # отрисовка игры
         arcade.start_render()
         self.scene.draw()
+        # активация камеры
+        self.camera.use()
+
+    # вспомогательный метод центрирования камеры на игроке
+    def center_camera_to_player(self):
+        screen_center_y = self.player_sprite.center_y - (
+            self.camera.viewport_height / 2
+        )
+
+        if screen_center_y < 0:
+            screen_center_y = 0
+
+        player_centered = 0, screen_center_y
+        self.camera.move_to(player_centered)
