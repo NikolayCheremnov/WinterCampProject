@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bbd27534-3e1b-4df0-9ea9-75b981495e5f" name="Default Changelist" comment="Gravity and jump added.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameSettings.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameSettings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameView.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameView.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InitialView.py" beforeDir="false" afterPath="$PROJECT_DIR$/InitialView.py" afterDir="false" />
     </list>
@@ -167,7 +166,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641479679903</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="lava, restart, lava collision added.">
+      <created>1641481206799</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1641481206799</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,7 +198,8 @@
     <MESSAGE value="Gravity and jump added." />
     <MESSAGE value="prototype of students version" />
     <MESSAGE value="vertical camera added." />
-    <option name="LAST_COMMIT_MESSAGE" value="vertical camera added." />
+    <MESSAGE value="lava, restart, lava collision added." />
+    <option name="LAST_COMMIT_MESSAGE" value="lava, restart, lava collision added." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

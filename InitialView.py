@@ -5,6 +5,10 @@ from GameView import GameView
 
 class InitialView(arcade.View):
 
+    def __init__(self):
+        super().__init__()
+        self.msg = ''
+
     def on_show(self):
         # 1. установка фонового цвета начального экрана
         arcade.set_background_color(arcade.csscolor.AQUA)
@@ -25,8 +29,18 @@ class InitialView(arcade.View):
                          arcade.color.DRAB, font_size=17,
                          anchor_x="center")
 
+        # счет
+        arcade.draw_text(self.msg,
+                         self.window.width / 2, self.window.height / 2 - 150,
+                         arcade.color.DRAB, font_size=15,
+                         anchor_x="center")
+
     def on_key_press(self, symbol, modifiers):
         # запуск игры
         game_view = GameView(self)
         game_view.setup()
         self.window.show_view(game_view)
+
+    def add_score_message(self, msg):
+        self.msg = msg
+

@@ -10,6 +10,6 @@ JUMP = 20
 
 # настройки мира
 GRAVITY = 1
-LAVA_TIME = 1
+LAVA_TIME = 0.5
 
 

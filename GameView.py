@@ -20,6 +20,8 @@ class GameView(arcade.View):
         self.lava_level = 32
         # начальное окно для рестарта
         self.initial_view = initial_view
+        # счет
+        self.score = 0
 
     def setup(self):
         # 0. инициализация камеры
@@ -113,6 +115,9 @@ class GameView(arcade.View):
         lava_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.scene['Lava'])
         if len(lava_hit_list) != 0:
             self.restart()
+        # 4. Обновление счета
+        if self.player_sprite.center_y > self.score:
+            self.score = self.player_sprite.center_y
 
     def on_draw(self):
         # отрисовка игры
@@ -120,6 +125,10 @@ class GameView(arcade.View):
         self.scene.draw()
         # активация камеры
         self.camera.use()
+        # отрисовка счета
+        arcade.draw_text(f'Высота: {self.score / 100} м.',
+                         self.player_sprite.center_x - 32, self.player_sprite.center_y + 40,
+                         arcade.color.BLACK, font_size=15)
 
     # вспомогательный метод центрирования камеры на игроке
     def center_camera_to_player(self):
@@ -146,4 +155,6 @@ class GameView(arcade.View):
     # вспомогательный метод рестарта
     def restart(self):
         arcade.unschedule(self.add_lava)
+        self.initial_view.add_score_message(f'Вы достигли высоту {self.score / 100} м.')
         self.window.show_view(self.initial_view)
+
