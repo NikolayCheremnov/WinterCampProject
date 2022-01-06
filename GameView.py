@@ -1,11 +1,11 @@
 import arcade
 
-from GameSettings import SPAWN_POINT, GRAVITY, SPEED, JUMP
+from GameSettings import SPAWN_POINT, GRAVITY, SPEED, JUMP, LAVA_TIME
 
 
 class GameView(arcade.View):
 
-    def __init__(self):
+    def __init__(self, initial_view):
         # вызов конструктора базового класса
         super().__init__()
         # создание сцены
@@ -16,6 +16,10 @@ class GameView(arcade.View):
         self.engine = None
         # камера
         self.camera = None
+        # начальный уровень лавы
+        self.lava_level = 32
+        # начальное окно для рестарта
+        self.initial_view = initial_view
 
     def setup(self):
         # 0. инициализация камеры
@@ -25,6 +29,7 @@ class GameView(arcade.View):
         # 2. Добавление списки спрайтов на сцену
         self.scene.add_sprite_list('Player')
         self.scene.add_sprite_list('Walls', use_spatial_hash=True)
+        self.scene.add_sprite_list('Lava', use_spatial_hash=True)
         # 3. текстурируем игрока
         src = ':resources:images/animated_characters/male_adventurer/maleAdventurer_fall.png'
         self.player_sprite = arcade.Sprite(src, 1)
@@ -52,11 +57,12 @@ class GameView(arcade.View):
             # добавление на сцену
             self.scene.add_sprite('Walls', wall_1)
             self.scene.add_sprite('Walls', wall_2)
-
         # инициализация физического движка
         self.engine = arcade.PhysicsEnginePlatformer(
             self.player_sprite, gravity_constant=GRAVITY,
             walls=self.scene['Walls'])
+        # запуск лавы
+        arcade.schedule(self.add_lava, LAVA_TIME)
 
     def on_key_press(self, key, modifiers):
         # 1. обработка ходьбы
@@ -103,6 +109,10 @@ class GameView(arcade.View):
         self.engine.update()
         # 2. обновление камеры
         self.center_camera_to_player()
+        # 3. проверка на столкновение с лавой
+        lava_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.scene['Lava'])
+        if len(lava_hit_list) != 0:
+            self.restart()
 
     def on_draw(self):
         # отрисовка игры
@@ -122,3 +132,18 @@ class GameView(arcade.View):
 
         player_centered = 0, screen_center_y
         self.camera.move_to(player_centered)
+
+    # вспомогательный метод добавления лавы
+    def add_lava(self, time):
+        src = ':resources:images/tiles/lava.png'
+        for x in range(0, 1250, 64):
+            lava = arcade.Sprite(src, 0.5)
+            lava.center_x = x
+            lava.center_y = self.lava_level
+            self.scene.add_sprite('Lava', lava)
+        self.lava_level += 64
+
+    # вспомогательный метод рестарта
+    def restart(self):
+        arcade.unschedule(self.add_lava)
+        self.window.show_view(self.initial_view)

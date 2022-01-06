@@ -27,6 +27,6 @@ class InitialView(arcade.View):
 
     def on_key_press(self, symbol, modifiers):
         # запуск игры
-        game_view = GameView()
+        game_view = GameView(self)
         game_view.setup()
         self.window.show_view(game_view)
